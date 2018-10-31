@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% load sim_filters %}
+{% block title_bl %}Blocks{% endblock %}
+
+{% block body_bl %}
+<div class="container">
+    <h1>List of chained blocks</h1>
+    <a href="{% url 'simulation:transactions' %}">[see transactions list]</a>
+    <a href="{% url 'welcome:home' %}">[back to homepage]</a>
+    {% if status %}
+        <div class="bg-danger text-white">
+            <p>{{ status }}</p>
+        </div>
+    {% endif %}
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Previous Hash</th>
+                <th scope="col">Block Hash</th>
+                <th scope="col">Merkle Root Hash</th>
+                <th scope="col">Nonce</th>
+                <th scope="col">Timestamp</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for block in blocks %}
+            <tr>
+                <td><a href="{% url 'simulation:block_detail' block_hash=block.h %}">{{ block.id }}</a></th>
+                <td><code>{{ block.prev_h }}</code></td>
+                <td><code>{{ block.h }}</code></td>
+                <td><code>{{ block.merkle_h }}</code></td>
+                <td>{{ block.nonce }}</td>
+                <td>{{ block.timestamp|unix_to_date|date:"Y-m-d H:i:s" }}</td>
+            </tr>
+            {% empty %}
+                <p>No record.</p>
+            {% endfor %}
+        </tbody>
+    </table>
+    <a class="btn btn-outline-primary btn-block" href="{% url 'simulation:verify' %}" role="button" title="Verify all transactions in each block">Verify</a>
+    <a class="btn btn-outline-primary btn-block" href="{% url 'simulation:sync' %}" role="button" title="Quickly sync data from virtual nodes">Sync</a>
+</div>
+{% endblock %}

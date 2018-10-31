@@ -1,0 +1,5 @@
+# This is the minimal gitignore for Django
+
+# Exclude the test database
+db.sqlite3
+__pycache__

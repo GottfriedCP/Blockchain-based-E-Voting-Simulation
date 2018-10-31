@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title_bl %}Home{% endblock %}
+
+{% block body_bl %}
+<div class="container">
+    <div>
+        <h1 style="padding-bottom:5%;">Blockchain-based e-voting simulation</h1>
+    </div>
+    <div class="row">
+        <div class="col-md-5 menu">
+            <h2>"BLOCK"</h2>
+            <p>This part will show:</p>
+            <ul>
+                <li>Example of ballot</li>
+                <li>Ballot structure</li>
+                <li>Signature verification</li>
+                <li>Block sealing process</li>
+            </ul>
+            <div class="btn-menu">
+                <a class="btn btn-outline-primary btn-block btn-menu" href="{% url 'ballot:create' %}" role="button">Start</a>
+            </div>
+        </div>
+        <div class="col-md-5 menu">
+            <h2>"CHAIN"</h2>
+            <p>This part will show:</p>
+            <ul>
+                <li>Batch transactions ({{ tx }})</li>
+                <li>Block chaining ({{ bl }})</li>
+                <li>Block detail</li>
+                <li>Blocks verification</li>
+            </ul>
+            <div class="btn-menu">
+                <a class="btn btn-outline-primary btn-menu" href="{% url 'simulation:generate' %}" role="button">Start</a>
+                <a class="btn btn-link btn-menu" href="{% url 'simulation:transactions' %}" role="button">See transactions</a>
+                <a class="btn btn-link btn-menu" href="{% url 'simulation:blockchain' %}" role="button">See blocks</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,55 @@
+body {
+    padding-top: 1%;
+    padding-bottom: 1%;
+}
+
+form {
+    padding: 1%;
+}
+
+img {
+    max-width: 128px;
+    height: auto;
+}
+
+table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+}
+
+.menu {
+    border: 1px solid black;
+    min-height: 420px;
+    margin: auto;
+    position: relative;
+}
+
+.menu h2 {
+    padding: 7% 0;
+    text-align: center;
+}
+
+.menu ul, .menu p {
+    margin: 0 20%;
+}
+
+div.btn-menu {
+    position: absolute;
+    bottom: 5%;
+    left: 5%;
+    width: 100%;
+}
+
+a.btn-menu {
+    margin-top: 2%;
+    width: 90%;
+}
+
+div#footer {
+    padding-top: 5%;
+}
+
+div#footer #credit {
+    text-align: center;
+}

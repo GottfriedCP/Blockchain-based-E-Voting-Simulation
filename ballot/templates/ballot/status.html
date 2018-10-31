@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block title_bl %}Status{% endblock %}
+
+{% block body_bl %}
+<div class="container">
+    <h1>Signature Verification</h1>
+    <div style="padding:3%; border:1px solid black;">
+        <p>Your ballot was <code>{{ ballot }}</code></p>
+        <p>Generated signature <code>{{ signature }}</code></p><br>
+        <p style="color:{% if error %}red{% else %}green{% endif %};">
+            {{ status }}
+        </p>
+    
+        {% if not error %}
+        <form action="{% url 'ballot:seal' %}" method="POST">
+            {% csrf_token %}
+            <input name="ballot_input" type="hidden" value="{{ ballot }}">
+            <button type="submit" class="btn btn-primary btn-block">Seal the ballot</button>
+        </form>
+        {% endif %}
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title_bl %}Block detail{% endblock %}
+
+{% block body_bl %}
+    <div class="container">
+        <h1>Block detail</h1>
+        <div style="padding:3%; border: 1px solid black;">
+            <dl class="row">
+                <dt class="col-sm-3">Previous hash</dt>
+                <dd class="col-sm-9">{{ prev_hash }}</dd>
+    
+                <dt class="col-sm-3">Transaction hash</dt>
+                <dd class="col-sm-9"><code>{{ transaction_hash }}</code></dd>
+    
+                <dt class="col-sm-3">Block hash</dt>
+                <dd class="col-sm-9"><code>{{ block_hash }}</code></dd>
+    
+                <dt class="col-sm-3">Nonce</dt>
+                <dd class="col-sm-9">{{ nonce }}</dd>
+    
+                <dt class="col-sm-3">Timestamp</dt>
+                <dd class="col-sm-9">{{ timestamp }}</dd>
+            </dl>
+            <a href="{% url 'welcome:home' %}">[back to homepage]</a>
+        </div>
+    </div>
+{% endblock %}

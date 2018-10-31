@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title_bl %}Create ballot{% endblock %}
+{% block body_bl %}
+<div class="container" style="border: 1px solid black; background-color: #F5F5F5;">
+    <h1 style="text-align:center;">Best Artist Nomination</h1>
+    <form action="{% url 'ballot:create' %}" method="POST">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="voter-id-input">Your ID:</label>
+            <input name="voter-id-input" type="text" class="form-control" id="voter-id-input" placeholder="fe021e59-c29d-4532-9e99-5c42f1910af3" value="{{ voter_id }}" required autofocus>
+        </div>
+        <div id="candidate" style="padding:20px 0;">
+            <p style="text-align:center;">Eligible candidates are shown below:</p>
+            <div class="row">
+                <div class="col-md-4">
+                    <p style="text-align: center;"><img src="{% static 'ballot/img/mercury.jpg' %}"></p>
+                    <p style="text-align: center;">Freddie Mercury (1)</p>
+                </div>
+                <div class="col-md-4">
+                    <p style="text-align: center;"><img src="{% static 'ballot/img/jovi.jpg' %}"></p>
+                    <p style="text-align: center;">Jon Bon Jovi (2)</p>
+                </div>
+                <div class="col-md-4">
+                    <p style="text-align: center;"><img src="{% static 'ballot/img/suicidal.jpg' %}"></p>
+                    <p style="text-align: center;">Suicidal Guy from Colourbox (3)</p>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+                <label for="vote-input">Your candidate choice:</label>
+                <input name="vote-input" type="number" class="form-control" id="voter-input" placeholder="Enter valid candidate ID" min="1" max="3" required>
+            </div>
+        <div class="form-group">
+            <label for="private-key-textarea">Your private key:</label>
+            <textarea name="private-key-input" class="form-control" id="private-key-textarea" rows="10" required></textarea>
+            <small id="privatekeyHelpBlock" class="form-text text-muted">
+                The matching public key must already be registered.
+            </small>
+        </div>
+        <button type="submit" class="btn btn-primary btn-block">Submit ballot</button>
+    </form>
+</div>
+{% endblock %}
