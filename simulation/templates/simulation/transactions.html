@@ -5,8 +5,8 @@
 {% block body_bl %}
 <div class="container">
     <h1>List of sealed votes</h1>
-    <a href="{% url 'simulation:blockchain' %}">[see the blockchain]</a>
-    <a href="{% url 'welcome:home' %}">[back to homepage]</a>
+    <a class="btn btn-light btn-sm" href="{% url 'simulation:blockchain' %}" role="button">See all blocks</a>
+    <a class="btn btn-light btn-sm" href="{% url 'welcome:home' %}" role="button">Back to homepage</a>
     <div style="padding:1%; border:1px solid black;">
         {% for r in result %}
             Candidate #{{ forloop.counter }}: {{ r }} votes<br>
@@ -30,8 +30,8 @@
                 <td><code>{{ ballot.id }}</code></th>
                 <td>{{ ballot.vote }}</td>
                 <td>{{ ballot.timestamp|unix_to_date|date:"Y-m-d H:i:s" }}</td>
-                <td><code>{{ h }}</code></td>
-                <td><a href="{% url 'simulation:block_detail' block_hash=bh %}">[go to block]</a></td>
+                <td title="{{ h }}"><code>{{ h|truncatechars:20 }}</code></td>
+                <td><a class="btn btn-light btn-sm" href="{% url 'simulation:block_detail' block_hash=bh %}" role="button">go to block</a></td>
             </tr>
             {% empty %}
                 <p>No record.</p>

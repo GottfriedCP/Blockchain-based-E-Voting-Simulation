@@ -4,9 +4,9 @@
 
 {% block body_bl %}
 <div class="container">
-    <h1>List of chained blocks</h1>
-    <a href="{% url 'simulation:transactions' %}">[see transactions list]</a>
-    <a href="{% url 'welcome:home' %}">[back to homepage]</a>
+    <h1>List of blocks</h1>
+    <a class="btn btn-light btn-sm" href="{% url 'simulation:transactions' %}" role="button">See all transactions</a>
+    <a class="btn btn-light btn-sm" href="{% url 'welcome:home' %}" role="button">Back to homepage</a>
     {% if status %}
         <div class="bg-danger text-white">
             <p>{{ status }}</p>
@@ -27,9 +27,9 @@
             {% for block in blocks %}
             <tr>
                 <td><a href="{% url 'simulation:block_detail' block_hash=block.h %}">{{ block.id }}</a></th>
-                <td><code>{{ block.prev_h }}</code></td>
-                <td><code>{{ block.h }}</code></td>
-                <td><code>{{ block.merkle_h }}</code></td>
+                <td title="{{ block.prev_h }}"><code>{{ block.prev_h|truncatechars:30 }}</code></td>
+                <td title="{{ block.h }}"><code>{{ block.h|truncatechars:30 }}</code></td>
+                <td title="{{ block.merkle_h }}"><code>{{ block.merkle_h|truncatechars:30 }}</code></td>
                 <td>{{ block.nonce }}</td>
                 <td>{{ block.timestamp|unix_to_date|date:"Y-m-d H:i:s" }}</td>
             </tr>
@@ -39,6 +39,6 @@
         </tbody>
     </table>
     <a class="btn btn-outline-primary btn-block" href="{% url 'simulation:verify' %}" role="button" title="Verify all transactions in each block">Verify</a>
-    <a class="btn btn-outline-primary btn-block" href="{% url 'simulation:sync' %}" role="button" title="Quickly sync data from virtual nodes">Sync</a>
+    <a class="btn btn-outline-primary btn-block" href="{% url 'simulation:sync' %}" role="button" title="Sync data with virtual nodes">Sync</a>
 </div>
 {% endblock %}

@@ -6,9 +6,8 @@
 {% block body_bl %}
 <div class="container">
     <h1 class="pb-1">Block #{{ bk.id }}</h1>
-    <a href="{% url 'simulation:blockchain' %}">[Back to blocks list]</a>
-    <a href="{% url 'simulation:transactions' %}">[See all transactions]</a>
-    <a href="{% url 'welcome:home' %}">[Back to homepage]</a>
+    <a class="btn btn-light btn-sm" href="{% url 'simulation:blockchain' %}" role="button">Back to blocks list</a>
+    <a class="btn btn-light btn-sm" href="{% url 'welcome:home' %}" role="button">Back to homepage</a>
     <div class="mt-1" style="padding: 3%; border: 1px solid black;">
         <dl class="row">
             <dt class="col-sm-3">Previous hash</dt>
@@ -30,12 +29,12 @@
             <dd class="col-sm-9">{{ confirmed_by }} confirmations</dd>
         </dl>
     </div>
-    <div id="block-navigation">
+    <div class="p-2" id="block-navigation">
         {% if prev_block %}
-            <a href="{% url 'simulation:block_detail' block_hash=prev_block.h %}">[Previous block]</a>
+            <a class="btn btn-primary btn-sm" href="{% url 'simulation:block_detail' block_hash=prev_block.h %}" role="button">Previous block</a>
         {% endif %}
         {% if next_block %}
-            <a href="{% url 'simulation:block_detail' block_hash=next_block.h %}">[Next block]</a>
+            <a class="btn btn-primary btn-sm" href="{% url 'simulation:block_detail' block_hash=next_block.h %}" role="button">Next block</a>
         {% endif %}
     </div>
     <div>
@@ -67,7 +66,7 @@
                     <td><code>{{ t.id }}</code></td>
                     <td>{{ t.vote }}</td>
                     <td>{{ t.timestamp|unix_to_date|date:"Y-m-d H:i:s" }}</td>
-                    <td><code>{{ h }}</code></td>
+                    <td title="{{ h }}"><code>{{ h|truncatechars:32 }}</code></td>
                 </tr>
                 {% endfor %}
             </tbody>

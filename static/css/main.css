@@ -14,7 +14,8 @@ img {
 
 table {
     display: block;
-    overflow-x: auto;
+    overflow: auto;
+    height: 320px;
     white-space: nowrap;
 }
 
