@@ -7,10 +7,12 @@
     <h1>List of blocks</h1>
     <a class="btn btn-light btn-sm" href="{% url 'simulation:transactions' %}" role="button">See all transactions</a>
     <a class="btn btn-light btn-sm" href="{% url 'welcome:home' %}" role="button">Back to homepage</a>
-    {% if status %}
-        <div class="bg-danger text-white">
-            <p>{{ status }}</p>
-        </div>
+    {% if messages %}
+        {% for message in messages %}
+            <div class="{{ message.extra_tags }} text-white">
+                <p>{{ message }}</p>
+            </div>
+        {% endfor %}
     {% endif %}
     <table class="table table-hover">
         <thead>

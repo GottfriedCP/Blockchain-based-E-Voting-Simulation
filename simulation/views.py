@@ -3,6 +3,7 @@ from random import randint
 from uuid import uuid4
 from Crypto.Hash import SHA3_256
 from django.conf import settings
+from django.contrib import messages
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, render, redirect
 
@@ -120,20 +121,15 @@ def transactions(request):
 
 def blockchain(request):
     """See all mined blocks."""
-    status = None
-    if request.session.get('corrupt_block_list') is not None:
-        status = request.session['corrupt_block_list']
-        del request.session['corrupt_block_list']
     blocks = Block.objects.all().order_by('id')
     context = {
         'blocks': blocks,
-        'status': status,
     }
     return render(request, 'simulation/blockchain.html', context)
 
 def verify(request):
     """Verify transactions in all blocks by re-calculating the merkle root."""
-    # Basically, by just creating a session var
+    # Basically, by just creating a session (message) var
 
     print('verifying data...')
     number_of_blocks = Block.objects.all().count()
@@ -158,7 +154,9 @@ def verify(request):
             corrupt_block_list += ' {}'.format(i)
         print('{}'.format(message))
     if len(corrupt_block_list) > 0:
-        request.session['corrupt_block_list'] = 'The following blocks have corrupted transactions: {}'.format(corrupt_block_list)
+        messages.warning(request, 'The following blocks have corrupted transactions: {}.'.format(corrupt_block_list), extra_tags='bg-danger')
+    else:
+        messages.info(request, 'All transactions in blocks are intact.', extra_tags='bg-info')
     return redirect('simulation:blockchain')
 
 def sync(request):
@@ -170,6 +168,7 @@ def sync(request):
         vote = Vote(id=bk_v.id, vote=bk_v.vote, timestamp=bk_v.timestamp, block_id=bk_v.block_id)
         vote.save()
     print('\nSync complete.\n')
+    messages.info(request, 'All blocks have been synced successfully.')
     return redirect('simulation:blockchain')
 
 def block_detail(request, block_hash):
