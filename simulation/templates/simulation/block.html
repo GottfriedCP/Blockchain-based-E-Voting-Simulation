@@ -23,7 +23,7 @@
             <dd class="col-sm-9">{{ bk.nonce }}</dd>
 
             <dt class="col-sm-3">Timestamp</dt>
-            <dd class="col-sm-9">{{ bk.timestamp|unix_to_date|date:"Y-m-d H:i:s" }}</dd>
+            <dd class="col-sm-9">{{ bk.timestamp|unix_to_date|date:"Y-m-d H:i:s" }} ({{ bk.timestamp|unix_to_date|timesince }} ago)</dd>
 
             <dt class="col-sm-3">Confirmations</dt>
             <dd class="col-sm-9">{{ confirmed_by }} confirmations</dd>
