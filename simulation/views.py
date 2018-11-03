@@ -171,6 +171,24 @@ def sync(request):
     messages.info(request, 'All blocks have been synced successfully.')
     return redirect('simulation:blockchain')
 
+def sync_block(request, block_id):
+    """Restore transactions of a block from honest node."""
+    b = Block.objects.get(id=block_id)
+    print('\nSyncing transactions in block {}\n'.format(b.id))
+    # Get all existing transactions in this block and delete them
+    Vote.objects.filter(block_id=block_id).delete()
+    # Then rewrite from backup node
+    bak_votes = VoteBackup.objects.filter(block_id=block_id).order_by('timestamp')
+    for bv in bak_votes:
+        v = Vote(id=bv.id, vote=bv.vote, timestamp=bv.timestamp, block_id=bv.block_id)
+        v.save()
+    # Just in case, delete transactions without valid block
+    block_count = Block.objects.all().count()
+    Vote.objects.filter(block_id__gt=block_count).delete()
+    Vote.objects.filter(block_id__lt=1).delete()
+    print('\nSync complete\n')
+    return redirect('simulation:block_detail', block_hash=b.h)
+
 def block_detail(request, block_hash):
     """See the details of a block and its transactions."""
     # Select the block or 404

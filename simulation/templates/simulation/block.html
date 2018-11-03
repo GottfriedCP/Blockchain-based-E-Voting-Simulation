@@ -41,7 +41,7 @@
         <h2>Transactions</h2>
         {% if tampered %}
         <div class="bg-danger text-white">
-            <p>Transactions are tampered</p>
+            <p>Transactions are tampered <a class="btn btn-primary btn-sm" href="{% url 'simulation:sync_block' block_id=bk.id %}" role="button">Sync with other nodes</a></p>
         </div>
         {% else %}
             <div class="bg-success text-white">
