@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load sim_filters %}
 {% block title_bl %}Block detail{% endblock %}
 
 {% block body_bl %}
@@ -20,7 +21,7 @@
                 <dd class="col-sm-9">{{ nonce }}</dd>
     
                 <dt class="col-sm-3">Timestamp</dt>
-                <dd class="col-sm-9">{{ timestamp }}</dd>
+                <dd class="col-sm-9">{{ timestamp }} ({{ timestamp|unix_to_date|date:"Y-m-d H:i:s" }})</dd>
             </dl>
             <a class="btn btn-primary btn-small" href="{% url 'welcome:home' %}" role="button">Back to homepage</a>
         </div>
