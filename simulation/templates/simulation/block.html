@@ -39,6 +39,7 @@
     </div>
     <div>
         <h2>Transactions</h2>
+        <p>Re-calculated merkle root hash: <code>{{ verified_merkle_h }}</code></p>
         {% if tampered %}
         <div class="bg-danger text-white">
             <p>Transactions are tampered <a class="btn btn-primary btn-sm" href="{% url 'simulation:sync_block' block_id=bk.id %}" role="button">Sync with other nodes</a></p>
@@ -48,7 +49,6 @@
                 <p>Transactions are not tampered</p>
             </div>
         {% endif %}
-        <p>Re-calculated merkle root hash: <code>{{ verified_merkle_h }}</code></p>
         <table class="table table-hover">
             <thead>
                 <tr>
