@@ -7,11 +7,26 @@
     <h1>List of confirmed votes</h1>
     <a class="btn btn-light btn-sm" href="{% url 'simulation:blockchain' %}" role="button">See all blocks</a>
     <a class="btn btn-light btn-sm" href="{% url 'welcome:home' %}" role="button">Back to homepage</a>
-    <div style="padding:1%; border:1px solid black;">
+    <div style="margin:1%; padding:1%; border:1px solid black;">
         {% for r in result %}
             Candidate #{{ forloop.counter }}: {{ r }} votes<br>
         {% endfor %}
     </div>
+
+    <small>Showing page {{ votes_pg.number }} of {{ votes_pg.paginator.num_pages }}</small>
+    <div class="pagination pb-2">
+        <span class="step-links">
+            {% if votes_pg.has_previous %}
+                <a class="btn btn-light btn-sm" href="?page=1" role="button">&laquo; First</a>
+                <a class="btn btn-light btn-sm" href="?page={{ votes_pg.previous_page_number }}" role="button">Previous</a>
+            {% endif %}
+            {% if votes_pg.has_next %}
+                <a class="btn btn-light btn-sm" href="?page={{ votes_pg.next_page_number }}" role="button">Next</a>
+                <a class="btn btn-light btn-sm" href="?page={{ votes_pg.paginator.num_pages }}" role="button">Last &raquo;</a>
+            {% endif %}
+        </span>
+    </div>
+
     <table class="table table-hover">
         <thead>
             <tr>

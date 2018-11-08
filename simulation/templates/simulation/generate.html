@@ -4,7 +4,8 @@
 {% block body_bl %}
 <div class="container">
     <h1>List of unconfirmed votes</h1>
-    <p>Batch creation of votes with pseudo random valid values</p>
+    <p>Showing last 100 transactions (or all if &lt;=100)</p>
+    
     <table class="table table-hover">
         <thead>
             <tr>
@@ -23,6 +24,7 @@
             {% endfor %}
         </tbody>
     </table>
-    <a class="btn btn-primary btn-block" href="{% url 'simulation:seal' %}" role="button">Seal into blocks</a>
+    
+    <a class="btn btn-primary btn-block" href="{% url 'simulation:seal' %}" role="button">Mine into blocks</a>
 </div>
 {% endblock %}

@@ -57,7 +57,7 @@ ROOT_URLCONF = 'bbevoting_project.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': ['templates/'],
+        'DIRS': ['templates', ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -130,13 +130,8 @@ STATICFILES_DIRS = [
 # IMPORTANT: Re-run the simulation after modifying these values.
 # Public key
 PUBLIC_KEY = """-----BEGIN PUBLIC KEY-----
-MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAlvazMebaZEBXHjA2vt2q
-gisqnl313zkmBummkuVJq/URpBtwNDXsnKTmeNzP/Kds7QH0xE8p++SUfe15eTSz
-b5ZRJOgjI/0WMVU3nFiTc3LeZJGvHJUKJuF9sV6tRJxQwZDfI8ho3H++rUN+LPwD
-Fo86A6lOsIkFs5R3vEvYqkJjHJsksZGEXk1H6RxAMIDnw0s7Maudekl5gAKwcN8x
-l6Q4GPzeqXsTks82nG0Ld+MArD3ht6gQQiNZD6U/A336fOcfiX6ZQZZ+b/0EyC9r
-exqewv25/cu/KIxAnL2MUUGmqjPuDV/khLaLd5E9yD4gW8wwYGlnK1YNcNyq8bA4
-KQIDAQAB
+MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEJ5r+Cab+pDjJm1INuWDJFfTPcvqJ
+lIEPNL/gFRyz9sl55N8jENmCslOSpNCkJUEb879x+0Jx0pg9POeOAT7Xrw==
 -----END PUBLIC KEY-----"""
 
 # PUZZLE
@@ -144,6 +139,6 @@ PUZZLE = '0000' # or more zeros
 PLENGTH = len(PUZZLE)
 
 # BATCH SIMULATION
-N_TRANSACTIONS = 1000 # 16130
-N_TX_PER_BLOCK = 20 # 16130
+N_TRANSACTIONS = 10000
+N_TX_PER_BLOCK = 20
 N_BLOCKS = math.ceil(N_TRANSACTIONS/N_TX_PER_BLOCK) # Number of required blocks as int

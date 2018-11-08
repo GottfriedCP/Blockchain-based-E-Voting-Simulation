@@ -1,7 +1,8 @@
-import datetime, json, math
+import datetime, time, json, math
 from random import randint
 from uuid import uuid4
 from Crypto.Hash import SHA3_256
+from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.conf import settings
 from django.contrib import messages
 from django.http import HttpResponse
@@ -14,11 +15,17 @@ def generate(request):
     """Generate transactions and fill them with valid values."""
     number_of_transactions = settings.N_TRANSACTIONS
     number_of_tx_per_block = settings.N_TX_PER_BLOCK
+
     # Delete all data from previous demo.
     deleted_old_votes = Vote.objects.all().delete()[0]
     VoteBackup.objects.all().delete()
     print('\nDeleted {} data from previous simulation.\n'.format(deleted_old_votes))
+    # Delete all blocks from previous demo.
+    deleted_old_blocks = Block.objects.all().delete()[0]
+    print("\nDeleted {} blocks from previous simulation.\n".format(deleted_old_blocks))
+    
     # Generate transactions.
+    time_start = time.time()
     block_no = 1
     for i in range(1, number_of_transactions + 1):
         # generate random, valid values
@@ -34,9 +41,11 @@ def generate(request):
         print("#{} new vote: {}".format(i, new_vote)) # for sanity
         if i % number_of_tx_per_block == 0:
             block_no += 1
+    time_end = time.time()
+    print('\nFinished in {} seconds.\n'.format(time_end - time_start))
 
     # View the generated transactions
-    votes = Vote.objects.order_by('timestamp')
+    votes = Vote.objects.order_by('-timestamp')[:100] # only shows the last 100, if any
     context = {
         'votes': votes,
     }
@@ -49,14 +58,11 @@ def seal(request):
         redirect('welcome:home')
     del request.session['transactions_done']
 
-    # Delete all blocks from previous demo.
-    deleted_old_blocks = Block.objects.all().delete()[0]
-    print("\nDeleted {} blocks from previous simulation.\n".format(deleted_old_blocks))
-
     # Puzzle requirement: '0' * (n leading zeros)
     puzzle, pcount = settings.PUZZLE, settings.PLENGTH
 
     # Seal transactions into blocks
+    time_start = time.time()
     number_of_blocks = settings.N_BLOCKS
     prev_hash = '0' * 64
     for i in range(1, number_of_blocks + 1):
@@ -79,20 +85,27 @@ def seal(request):
         # Create the block
         block = Block(id=i, prev_h=prev_hash, merkle_h=merkle_h, h=h, nonce=nonce, timestamp=timestamp)
         block.save()
+        print('\nBlock {} is mined\n'.format(i))
         # Set this hash as prev hash
         prev_hash = h
 
+    time_end = time.time()
     print('\nSuccessfully created {} blocks.\n'.format(number_of_blocks))
+    print('\nFinished in {} seconds.\n'.format(time_end - time_start))
     return redirect('simulation:blockchain')
 
 def transactions(request):
     """See all transactions that have been contained in blocks."""
-    votes = Vote.objects.all().order_by('timestamp')
+    vote_list = Vote.objects.all().order_by('timestamp')
+    paginator = Paginator(vote_list, 100, orphans=20, allow_empty_first_page=True)
+
+    page = request.GET.get('page')
+    votes = paginator.get_page(page)
+
     hashes = [SHA3_256.new(str(v).encode('utf-8')).hexdigest() for v in votes]
     
     # This happens if you don't use foreign key
     block_hashes = []
-    i = 0
     for i in range(0, len(votes)):
         try:
             b = Block.objects.get(id=votes[i].block_id)
@@ -102,6 +115,7 @@ def transactions(request):
         block_hashes.append(h)
     
     # zip the three iters
+    votes_pg = votes # for pagination
     votes = zip(votes, hashes, block_hashes)
     
     # Calculate the voting result of 3 cands, the ugly way
@@ -116,6 +130,7 @@ def transactions(request):
     context = {
         'votes': votes,
         'result': result,
+        'votes_pg': votes_pg,
     }
     return render(request, 'simulation/transactions.html', context)
 
@@ -195,16 +210,21 @@ def block_detail(request, block_hash):
     block = get_object_or_404(Block, h=block_hash)
     confirmed_by = (Block.objects.all().count() - block.id) + 1
     # Select all corresponding transactions
-    transactions = Vote.objects.filter(block_id=block.id).order_by('timestamp')
+    transaction_list = Vote.objects.filter(block_id=block.id).order_by('timestamp')
+    paginator = Paginator(transaction_list, 100, orphans=20)
+
+    page = request.GET.get('page')
+    transactions = paginator.get_page(page)
     transactions_hashes = [SHA3_256.new(str(t).encode('utf-8')).hexdigest() for t in transactions]
     
     # Check the integrity of transactions
     root = MerkleTools()
-    root.add_leaf([str(tx) for tx in transactions], True)
+    root.add_leaf([str(tx) for tx in transaction_list], True)
     root.make_tree()
     merkle_h = root.get_merkle_root()
     tampered = block.merkle_h != merkle_h
     
+    transactions_pg = transactions # for pagination
     transactions = zip(transactions, transactions_hashes)
     
     # Get prev and next block id
@@ -219,6 +239,7 @@ def block_detail(request, block_hash):
         'verified_merkle_h': merkle_h,
         'prev_block': prev_block,
         'next_block': next_block,
+        'transactions_pg': transactions_pg,
     }
 
     return render(request, 'simulation/block.html', context)

@@ -1,8 +1,8 @@
 import time, datetime
 import uuid
-from Crypto.Signature import pss
+from Crypto.Signature import DSS
 from Crypto.Hash import SHA3_256
-from Crypto.PublicKey import RSA
+from Crypto.PublicKey import ECC
 from Crypto import Random
 from django.conf import settings
 from django.http import HttpResponse
@@ -21,20 +21,20 @@ def create(request):
         signature = ''
         try:
             # Create signature
-            priv_key = RSA.import_key(private_key)
+            priv_key = ECC.import_key(private_key)
             h = SHA3_256.new(ballot.encode('utf-8'))
-            signature = pss.new(priv_key).sign(h)
+            signature = DSS.new(priv_key, 'fips-186-3').sign(h)
             print('\nsignature: {}\n'.format(signature.hex()))
 
             # Verify the signature using registered public key
-            pub_key = RSA.import_key(settings.PUBLIC_KEY)
-            verifier = pss.new(pub_key)
+            pub_key = ECC.import_key(settings.PUBLIC_KEY)
+            verifier = DSS.new(pub_key, 'fips-186-3')
         
             verifier.verify(h, signature)
-            status = 'The message and signature are authentic.'
+            status = 'The ballot is signed successfully.'
             error = False
         except (ValueError, TypeError):
-            status = 'The message and signature cannot be authenticated.'
+            status = 'The key is not registered.'
             error = True
         
         context = {
