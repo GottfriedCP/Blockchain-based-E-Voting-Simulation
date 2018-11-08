@@ -2,11 +2,11 @@
 
 ## Description
 
-This is a Python-based Django web project to simulate a concept of blockchain-based e-voting protocol. This project should be run on the development server with Debug mode on. The simulation comprises two parts: "Block" and "Chain".
+This is a Python-based Django web project to simulate a concept of blockchain-based e-voting protocol. This project should be run only on the development server with Debug mode on. The simulation comprises two parts: "Block" and "Chain".
 
 ### "Block"
 
-Submit the voter's pseudonym (UUID version 4) and the voter's choice as a ballot, which is then signed using a private key. (The public key must be registered first.) The ballot and the signature are then verified. Finally, the ballot is sealed (mined). In this part of the demo, one block contains the ballot (as transaction). The mining process is shown using the console.
+Submit the voter's pseudonym (UUID version 4) and the voter's choice as a ballot, which is then signed using a private key. (The public key must be added to settings.py first.) The ballot and the signature are then verified. Finally, the ballot is sealed (mined). In this part of the demo, one block contains the ballot (as transaction). The mining process is shown using the console.
 
 ### "Chain"
 
