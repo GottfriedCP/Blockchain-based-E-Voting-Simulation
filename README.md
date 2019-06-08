@@ -2,25 +2,34 @@
 
 ## Description
 
-This is a Python-based Django web project to simulate a concept of blockchain-based e-voting protocol. This project should be run only on the development server with Debug mode on. The simulation comprises two parts: "Block" and "Chain".
+This is a Python-based Django project to simulate a concept of blockchain-based e-voting protocol. This project should be run only on the development server with Debug mode on. The simulation comprises two sections: __"Block"__ and __"Chain"__.
 
 ### "Block"
 
-Submit the voter's pseudonym (UUID version 4) and the voter's choice as a ballot, which is then signed using a private key. (The public key must be added to settings.py first.) The ballot and the signature are then verified. Finally, the ballot is sealed (mined). In this part of the demo, one block contains the ballot (as transaction). The mining process is shown using the console.
+Scenario: a potential voter has to present himself to the voting organizer, showing his ID and other legal documents. Finally, he has to submit a public key i.e., ECC. Assume that he has successfully registered the public key.
+
+Via the ballot page (see screenshot below), the voter needs to enter his pseudonym (UUID 4) and candidate number. The ballot is then signed using a private key. If the submitted ballot is proven to be valid, it will be sealed (mined). In this section, one block contains only the aforementioned ballot. You can examine the whole process in detail using the console.
+
+(The public-private key pair is hard coded and generated externally.)
+
+![Ballot page](https://raw.githubusercontent.com/GottfriedCP/Blockchain-based-E-Voting-Simulation/master/screenshots/ballot.PNG)
 
 ### "Chain"
 
-Generate N transactions (ballots) with valid data. Seal them into blocks. You can then explore the transactions and blocks, and validate them.
+In this section, transactions (ballots) with valid data will be generated. They are then sealed into blocks. After that, you can explore the transactions and blocks, try to tamper the records, and verify them.
+
+![Sealed ballot](https://raw.githubusercontent.com/GottfriedCP/Blockchain-based-E-Voting-Simulation/master/screenshots/transactions.PNG)
+
+## How to run
+
+1. Get your virtual environment ready (recommended). 
+2. Locate the 'reqs.txt' file. Install necessary packages: `pip install -r reqs.txt`.
+3. Locate the 'manage.py' file. Run `python manage.py runserver`. Then access http://localhost:8000.
+4. From the homepage, either run 'Block' or 'Chain' section by clicking 'Start'.
 
 ## Technical Details
 
-In the file settings.py inside the project configurations folder, you may set some vars such as `N_TRANSACTIONS`, `N_TX_PER_BLOCK`, and the puzzle difficulty. A demo public key is also stored there as text; the matching private key file is also included.
-
-This project uses a modified version of "pymerkletools" by Tierion for creating merkle root using SHA3.
-
-Other details will be added later.
-
-Also see the included reqs.txt.
+The private key used in this demo is located in 'bbevoting_project' folder ('demo_private.pem' file), while the corresponding public key is hard coded in 'settings.py' (look for `PUBLIC_KEY`). You may also set some config vars such as `N_TRANSACTIONS`, `N_TX_PER_BLOCK`, and the puzzle difficulty (`PUZZLE` and `PLENGTH`).
 
 ## Screenshots
 
@@ -28,7 +37,9 @@ See the 'screenshots' folder.
 
 ## Acknowledgement
 
-For Prof. ABM
+For Prof. ABM.
+
+This project uses a modified version of "pymerkletools" by Tierion for creating merkle root using SHA3.
 
 ## License
 
