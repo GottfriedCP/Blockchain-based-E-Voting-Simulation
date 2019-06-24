@@ -22,6 +22,8 @@ In this section, transactions (ballots) with valid data will be generated. They 
 
 ![Block](https://raw.githubusercontent.com/GottfriedCP/Blockchain-based-E-Voting-Simulation/master/screenshots/block.PNG)
 
+_The screenshot above shows that a node's database (i.e., your node) has been tampered. You will not see this in real blockchain explorer, but this should give you a glimpse of why tampering immutable ledger is futile._
+
 ## How to run
 
 1. Get your virtual environment ready (recommended). 
