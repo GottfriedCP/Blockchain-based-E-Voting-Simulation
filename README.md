@@ -25,7 +25,7 @@ In this section, transactions (ballots) with valid data will be generated. They 
 ## How to run
 
 1. Get your virtual environment ready (recommended). 
-2. Locate the 'reqs.txt' file. Install necessary packages: `pip install -r reqs.txt`.
+2. Locate the 'requirements.txt' file. Install necessary packages: `pip install -r requirements.txt`.
 3. Locate the 'manage.py' file. Run `python manage.py runserver`. Then access http://localhost:8000.
 4. From the homepage, either run 'Block' or 'Chain' section by clicking 'Start'.
 
