@@ -39,12 +39,4 @@ The private key used in this demo is located in 'bbevoting_project' folder ('dem
 
 See the 'screenshots' folder.
 
-## Acknowledgement
-
-For Prof. ABM.
-
-This project uses a modified version of "pymerkletools" by Tierion for creating merkle root using SHA3.
-
-## License
-
 See included MIT License.
