@@ -1,2 +1,2 @@
 Django==2.2.13
-pycryptodome==3.6.6
+pycryptodome==3.19.1
